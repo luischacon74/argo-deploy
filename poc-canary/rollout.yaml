@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: canary-backend
+  namespace: demo-app
+spec:
+  replicas: 4
+
+  strategy:
+    canary:
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 20s
+
+        - setWeight: 50
+        - pause:
+            duration: 20s
+
+        - setWeight: 100
+
+  selector:
+    matchLabels:
+      app: canary-backend
+
+  template:
+    metadata:
+      labels:
+        app: canary-backend
+
+    spec:
+      containers:
+        - name: backend
+          image: canary-backend:v1
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 3000
