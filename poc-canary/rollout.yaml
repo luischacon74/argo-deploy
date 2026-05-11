@@ -1,10 +1,38 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 
-resources:
-  - rollout.yaml
-  - service.yaml
+metadata:
+  name: canary-backend
+  namespace: demo-app
 
-images:
-  - name: canary-backend
-    newTag: v1
+spec:
+  replicas: 4
+
+  strategy:
+    canary:
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 20s
+
+        - setWeight: 50
+        - pause:
+            duration: 20s
+
+  selector:
+    matchLabels:
+      app: canary-backend
+
+  template:
+    metadata:
+      labels:
+        app: canary-backend
+
+    spec:
+      containers:
+        - name: backend
+          image: canary-backend:v1
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 3000
