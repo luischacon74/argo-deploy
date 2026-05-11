@@ -7,4 +7,5 @@ resources:
 
 images:
   - name: canary-backend
-    newTag: v8
+    newName: registry.kube-system.svc.cluster.local:80/poc/canary-backend
+    newTag: v8   #
