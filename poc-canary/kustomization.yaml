@@ -7,4 +7,4 @@ resources:
 
 images:
   - name: poc-canary-backend
-    newTag: "35"
+    newTag: "36"
