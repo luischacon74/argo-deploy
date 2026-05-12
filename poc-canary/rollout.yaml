@@ -30,8 +30,8 @@ spec:
 
     spec:
       containers:
-        - name: backend
-          image: canary-backend:v1
+        - name: poc-canary-backend
+          newTag: "36"
           imagePullPolicy: Never
 
           ports:
