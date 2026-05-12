@@ -3,7 +3,7 @@ kind: Rollout
 
 metadata:
   name: canary-backend
-  namespace: demo-app
+  namespace: default
 
 spec:
   replicas: 4
